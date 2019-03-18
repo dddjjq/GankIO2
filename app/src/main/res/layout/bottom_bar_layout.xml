@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_marginBottom="5dp">
+
+    <com.welson.gankio2.view.BottomItemView
+        android:id="@+id/bottom_item_new"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:imageSrc="@drawable/bottom_item_home_image"
+        app:name="@string/bottom_item_text_new"
+        android:gravity="center">
+    </com.welson.gankio2.view.BottomItemView>
+    <com.welson.gankio2.view.BottomItemView
+        android:id="@+id/bottom_item_category"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:imageSrc="@drawable/bottom_item_category_image"
+        app:name="@string/bottom_item_text_category"
+        android:gravity="center">
+
+    </com.welson.gankio2.view.BottomItemView>
+    <com.welson.gankio2.view.BottomItemView
+        android:id="@+id/bottom_item_girls"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:imageSrc="@drawable/bottom_item_girls_image"
+        app:name="@string/bottom_item_text_girls"
+        android:gravity="center">
+    </com.welson.gankio2.view.BottomItemView>
+    <com.welson.gankio2.view.BottomItemView
+        android:id="@+id/bottom_item_collect"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:imageSrc="@drawable/bottom_item_collect_image"
+        app:name="@string/bottom_item_text_collect"
+        android:gravity="center">
+    </com.welson.gankio2.view.BottomItemView>
+</LinearLayout>
