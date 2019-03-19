@@ -19,12 +19,19 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        initView(view);
         initData();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        detach();
+    }
+
     public abstract int setLayoutId();
-    public abstract void initView();
+    public abstract void initView(View view);
     public abstract void initData();
+    public abstract void detach();
 
 }

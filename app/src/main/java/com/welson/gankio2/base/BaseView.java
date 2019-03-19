@@ -1,5 +1,6 @@
 package com.welson.gankio2.base;
 
 public interface BaseView {
-    void showError();
+    void startRequest();
+    void showError(String message);
 }

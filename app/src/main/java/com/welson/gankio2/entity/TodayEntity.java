@@ -1,5 +1,7 @@
 package com.welson.gankio2.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class TodayEntity {
@@ -34,37 +36,42 @@ public class TodayEntity {
 
     public class Result {
 
-        private ArrayList<GankEntity> android;
-        private ArrayList<GankEntity> app;
-        private ArrayList<GankEntity> ios;
+        private ArrayList<GankEntity> Android;
+        private ArrayList<GankEntity> App;
+        private ArrayList<GankEntity> iOS;
+        @SerializedName("休息视频")
         private ArrayList<GankEntity> ristMovie;
+        @SerializedName("前端")
         private ArrayList<GankEntity> front;
+        @SerializedName("拓展资源")
         private ArrayList<GankEntity> expand;
+        @SerializedName("瞎推荐")
         private ArrayList<GankEntity> recommendBlind;
+        @SerializedName("福利")
         private ArrayList<GankEntity> fuli;
 
         public ArrayList<GankEntity> getAndroid() {
-            return android;
+            return Android;
         }
 
         public void setAndroid(ArrayList<GankEntity> android) {
-            this.android = android;
+            Android = android;
         }
 
         public ArrayList<GankEntity> getApp() {
-            return app;
+            return App;
         }
 
         public void setApp(ArrayList<GankEntity> app) {
-            this.app = app;
+            App = app;
         }
 
-        public ArrayList<GankEntity> getIos() {
-            return ios;
+        public ArrayList<GankEntity> getiOS() {
+            return iOS;
         }
 
-        public void setIos(ArrayList<GankEntity> ios) {
-            this.ios = ios;
+        public void setiOS(ArrayList<GankEntity> iOS) {
+            this.iOS = iOS;
         }
 
         public ArrayList<GankEntity> getRistMovie() {
