@@ -31,6 +31,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     private ArrayList<GankEntity> allData;
     private String fuliUrl = "";
     private int currentCount = 0;
+    private LinkedHashMap<Integer,String> titles = new LinkedHashMap<>();
+    private boolean isTitleinit = false;
 
     public NewsRecyclerAdapter(Context context,LinkedHashMap<String, ArrayList<GankEntity>> gankEntities){
         this.gankEntities = gankEntities;
@@ -60,6 +62,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        initTitle();
         switch (getItemViewType(position)){
             case TYPE_FULI:
                 FuliViewHolder viewHolder = (FuliViewHolder)holder;
@@ -67,9 +70,10 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
                 break;
             case TYPE_HEAD:
                 HeadViewHolder headViewHolder = (HeadViewHolder)holder;
-                if(currentCount < categorys.size()){
-                    headViewHolder.headText.setText(categorys.get(currentCount));
-                    currentCount++;
+                for (Map.Entry<Integer,String> entry : titles.entrySet()){
+                    if (position == entry.getKey()){
+                        headViewHolder.headText.setText(entry.getValue());
+                    }
                 }
                 break;
             case TYPE_NORMAL:
@@ -80,7 +84,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
                 normalViewHolder.time.setText(allData.get(realPosition).getPublishedAt().substring(0,10));
                 if (allData.get(realPosition).getImages() != null){
                     normalViewHolder.image.setVisibility(View.VISIBLE);
-                    Log.d("dingyl","url : " + allData.get(realPosition).getImages()[0]);
                     GlideUtil.loadImage(context,allData.get(realPosition).getImages()[0],normalViewHolder.image);
                 }else {
                     normalViewHolder.image.setVisibility(View.GONE);
@@ -113,16 +116,50 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
         return position - 1;
     }
 
+    private void initTitle(){
+        if (isTitleinit){
+            return;
+        }
+        int count = getItemCount();
+        for (int position=0;position<count;position++){
+            if (getItemViewType(position) == TYPE_HEAD && currentCount < categorys.size()){
+                titles.put(position,categorys.get(currentCount));
+                currentCount++ ;
+            }
+        }
+        isTitleinit = true;
+    }
+
     private void init(){
         categorys = new ArrayList<>();
         allData = new ArrayList<>();
         for (Map.Entry<String,ArrayList<GankEntity>> entry : gankEntities.entrySet()){
             if (!entry.getKey().equals("福利")){
                 categorys.add(entry.getKey());
-                allData.add(null); // add for head
-                allData.addAll(entry.getValue());
+                sortCategory();
             }else {
                 fuliUrl = entry.getValue().get(0).getUrl();
+            }
+        }
+        for (String s : categorys){
+            for (Map.Entry<String,ArrayList<GankEntity>> entry : gankEntities.entrySet()){
+                if (entry.getKey().equals(s)){
+                    allData.add(null); // add for head
+                    allData.addAll(entry.getValue());
+                }
+            }
+        }
+    }
+
+    //add for sort list
+    private void sortCategory(){
+        String[] arr = new String[]{"Android","App","iOS","休息视频","前端","拓展资源","瞎推荐"};
+        for (String s1 : arr){
+            for (int j=0;j<categorys.size();j++){
+                if (categorys.get(j).equals(s1)){
+                    String s = categorys.remove(j);
+                    categorys.add(s);
+                }
             }
         }
     }
