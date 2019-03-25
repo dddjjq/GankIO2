@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,18 +7,33 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-   <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:layout_weight="1"
-       android:id="@+id/main_layout">
+    <com.welson.gankio2.view.GankToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImageSrc="@drawable/toolbar_calendar"
+        app:rightImageSrc="@drawable/toolbar_search"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
 
-   </FrameLayout>
-   <com.welson.gankio2.view.BottomBar
-       android:id="@+id/bottom_bar"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       >
-   </com.welson.gankio2.view.BottomBar>
+    </com.welson.gankio2.view.GankToolbar>
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        >
+    </FrameLayout>
+
+    <com.welson.gankio2.view.BottomBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+    </com.welson.gankio2.view.BottomBar>
+
+</RelativeLayout>

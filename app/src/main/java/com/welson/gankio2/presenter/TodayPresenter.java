@@ -5,6 +5,7 @@ import android.accounts.NetworkErrorException;
 import com.welson.gankio2.constant.Category;
 import com.welson.gankio2.contract.TodayContract;
 import com.welson.gankio2.entity.GankEntity;
+import com.welson.gankio2.entity.HistoryEntity;
 import com.welson.gankio2.entity.TodayEntity;
 import com.welson.gankio2.retrofit.RetrofitHelper;
 
@@ -46,6 +47,34 @@ public class TodayPresenter extends AbstractPresenter implements TodayContract.P
                     @Override
                     public void onError(Throwable e) {
                         view.showError("");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void requestHistoryDates() {
+        RetrofitHelper.getInstance().getHistoryDates()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<HistoryEntity>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        addDisposable(d);
+                    }
+
+                    @Override
+                    public void onNext(HistoryEntity historyEntity) {
+                        view.showHistoryDatesSucceed(historyEntity);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
                     }
 
                     @Override

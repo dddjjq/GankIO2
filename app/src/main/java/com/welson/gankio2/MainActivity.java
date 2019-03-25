@@ -4,38 +4,90 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 
+import com.welson.gankio2.fragment.BaseFragment;
+import com.welson.gankio2.fragment.CategoryFragment;
+import com.welson.gankio2.fragment.CollectFragment;
+import com.welson.gankio2.fragment.GirlFragment;
 import com.welson.gankio2.fragment.NewsFragment;
+import com.welson.gankio2.view.GankToolbar;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements GankToolbar.OnLeftImageClickListener
+        , GankToolbar.OnRightImageClickListener {
 
     private FrameLayout mainLayout;
-    private NewsFragment newsFragment;
+    private GankToolbar toolbar;
+    private ArrayList<BaseFragment> fragments;
+    private int currentItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+        initData();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initView();
-        initData();
     }
 
-    private void initView(){
+    private void initView() {
         mainLayout = findViewById(R.id.main_layout);
-
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnLeftImageClickListener(this);
+        toolbar.setOnRightImageClickListener(this);
+        setSupportActionBar(toolbar);
     }
 
-    private void initData(){
-        newsFragment = new NewsFragment();
+    private void initData() {
+        fragments = new ArrayList<>();
+        NewsFragment newsFragment = new NewsFragment();
+        CategoryFragment categoryFragment = new CategoryFragment();
+        GirlFragment girlFragment = new GirlFragment();
+        CollectFragment collectFragment = new CollectFragment();
+        fragments.add(newsFragment);
+        fragments.add(categoryFragment);
+        fragments.add(girlFragment);
+        fragments.add(collectFragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_layout,newsFragment);
+        for (BaseFragment fragment : fragments) {
+            fragmentTransaction.add(R.id.main_layout, fragment);
+        }
+        fragmentTransaction.hide(fragments.get(1)).hide(fragments.get(2)).hide(fragments.get(3)).show(fragments.get(0));
         fragmentTransaction.commit();
+    }
+
+    public void onBottomItemClick(int item) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        for (int i = 0; i < fragments.size(); i++) {
+            if (i == item) {
+                fragmentTransaction.show(fragments.get(i));
+            } else {
+                fragmentTransaction.hide(fragments.get(i));
+            }
+        }
+        currentItem = item;
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onLeftImageClick() {
+        if (currentItem == 0){
+            NewsFragment newsFragment = (NewsFragment) fragments.get(0);
+            newsFragment.onCalendarClick();
+        }
+    }
+
+    @Override
+    public void onRightClickListener() {
+
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.welson.gankio2.MainActivity;
 import com.welson.gankio2.R;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     private BottomItemView bottomItemCategory;
     private BottomItemView bottomItemGirls;
     private BottomItemView bottomItemCollect;
+    private MainActivity activity;
     private ArrayList<BottomItemView> bottomItemViews;
     private int currentItem = 0;
 
@@ -31,6 +33,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     }
 
     private void init(Context context) {
+        activity = (MainActivity)context;
         bottomItemViews = new ArrayList<>();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.bottom_bar_layout, this, true);
@@ -75,5 +78,6 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
                 }
             }
         }
+        activity.onBottomItemClick(currentItem);
     }
 }
