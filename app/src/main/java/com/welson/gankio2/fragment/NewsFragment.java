@@ -51,7 +51,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View {
 
     @Override
     public void initData() {
-        activity = (MainActivity)getActivity();
+        activity = (MainActivity) getActivity();
         todayPresenter = new TodayPresenter();
         todayPresenter.attachView(this);
         todayPresenter.requestTodayData();
@@ -71,7 +71,11 @@ public class NewsFragment extends BaseFragment implements TodayContract.View {
 
     @Override
     public void showHistoryDatesSucceed(HistoryEntity historyEntity) {
-        calendarRecyclerAdapter = new CalendarRecyclerAdapter(getContext(), historyEntity.getResults());
+        ArrayList<String> dates = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            dates.add(historyEntity.getResults().get(i));
+        }
+        calendarRecyclerAdapter = new CalendarRecyclerAdapter(getContext(), dates);
         calendarRecyclerView.setAdapter(calendarRecyclerAdapter);
     }
 
