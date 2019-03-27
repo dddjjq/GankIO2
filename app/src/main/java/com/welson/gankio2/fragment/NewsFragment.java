@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class NewsFragment extends BaseFragment implements TodayContract.View {
+public class NewsFragment extends BaseFragment implements TodayContract.View,
+        CalendarRecyclerAdapter.OnDateSelectedListener {
 
     private TodayPresenter todayPresenter;
     private RecyclerView newsRecyclerView;
@@ -64,7 +65,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View {
     }
 
     @Override
-    public void showDataSucceed(LinkedHashMap<String, ArrayList<GankEntity>> gankEntities) {
+    public void showDataSucceed(LinkedHashMap<ArrayList<GankEntity>,String> gankEntities) {
         adapter = new NewsRecyclerAdapter(getContext(), gankEntities);
         newsRecyclerView.setAdapter(adapter);
     }
@@ -105,5 +106,10 @@ public class NewsFragment extends BaseFragment implements TodayContract.View {
             calendarRecyclerView.startAnimation(mHiddenAction);
             calendarRecyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onDateSelect(String date) {
+
     }
 }

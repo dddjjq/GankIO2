@@ -13,10 +13,11 @@ public class TodayContract {
     public interface Presenter extends BasePresenter<View>{
         void requestTodayData();
         void requestHistoryDates();
+        void requestDateData(String date);
     }
 
     public interface View extends BaseView{
-        void showDataSucceed(LinkedHashMap<String, ArrayList<GankEntity>> gankEntities);
+        void showDataSucceed(LinkedHashMap<ArrayList<GankEntity>,String> gankEntities);
         void showHistoryDatesSucceed(HistoryEntity historyEntity);
     }
 }

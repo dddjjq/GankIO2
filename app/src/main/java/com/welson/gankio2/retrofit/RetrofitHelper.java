@@ -45,4 +45,8 @@ public class RetrofitHelper {
     public Observable<HistoryEntity> getHistoryDates(){
         return apiService.getHistoryDates();
     }
+
+    public Observable<TodayEntity> getDateData(String date){
+        return apiService.getDateData(date);
+    }
 }

@@ -15,4 +15,6 @@ public interface ApiService {
     @GET("day/history")
     Observable<HistoryEntity> getHistoryDates();
 
+    @GET("{date}")
+    Observable<TodayEntity> getDateData(String date);
 }

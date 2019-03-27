@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter {
 
-    private LinkedHashMap<String, ArrayList<GankEntity>> gankEntities;
+    private LinkedHashMap<ArrayList<GankEntity>,String> gankEntities;
     private Context context;
     private static final int TYPE_FULI = 0;
     private static final int TYPE_HEAD = 1;
@@ -34,7 +34,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     private LinkedHashMap<Integer,String> titles = new LinkedHashMap<>();
     private boolean isTitleinit = false;
 
-    public NewsRecyclerAdapter(Context context,LinkedHashMap<String, ArrayList<GankEntity>> gankEntities){
+    public NewsRecyclerAdapter(Context context,LinkedHashMap<ArrayList<GankEntity>,String> gankEntities){
         this.gankEntities = gankEntities;
         this.context = context;
         init();
@@ -95,8 +95,10 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         int normalSize = 0;
-        for (int i=0;i<categorys.size();i++){
-            normalSize += gankEntities.get(categorys.get(i)).size();
+        for (Map.Entry<ArrayList<GankEntity>,String> entry : gankEntities.entrySet()){
+            if (!entry.getValue().equals("福利")){
+                normalSize += entry.getKey().size();
+            }
         }
         return 1 + categorys.size() + normalSize;
     }
@@ -133,20 +135,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     private void init(){
         categorys = new ArrayList<>();
         allData = new ArrayList<>();
-        for (Map.Entry<String,ArrayList<GankEntity>> entry : gankEntities.entrySet()){
-            if (!entry.getKey().equals("福利")){
-                categorys.add(entry.getKey());
-                sortCategory();
+        for (Map.Entry<ArrayList<GankEntity>,String> entry : gankEntities.entrySet()){
+            if (!entry.getValue().equals("福利")){
+                categorys.add(entry.getValue());
+                allData.add(null); // add for head
+                allData.addAll(entry.getKey());
             }else {
-                fuliUrl = entry.getValue().get(0).getUrl();
-            }
-        }
-        for (String s : categorys){
-            for (Map.Entry<String,ArrayList<GankEntity>> entry : gankEntities.entrySet()){
-                if (entry.getKey().equals(s)){
-                    allData.add(null); // add for head
-                    allData.addAll(entry.getValue());
-                }
+                fuliUrl = entry.getKey().get(0).getUrl();
             }
         }
     }

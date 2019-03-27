@@ -36,11 +36,11 @@ public class TodayPresenter extends AbstractPresenter implements TodayContract.P
 
                     @Override
                     public void onNext(TodayEntity todayEntity) {
-                        HashMap<String, ArrayList<GankEntity>> data = parseData(todayEntity);
+                        LinkedHashMap<ArrayList<GankEntity>,String> data = parseData(todayEntity);
                         if (data == null){
                             onError(new NetworkErrorException());
                         }else {
-                            view.showDataSucceed(parseData(todayEntity));
+                            view.showDataSucceed(data);
                         }
                     }
 
@@ -85,6 +85,40 @@ public class TodayPresenter extends AbstractPresenter implements TodayContract.P
     }
 
     @Override
+    public void requestDateData(String date) {
+        RetrofitHelper.getInstance().getDateData(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<TodayEntity>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        addDisposable(d);
+                    }
+
+                    @Override
+                    public void onNext(TodayEntity todayEntity) {
+                        LinkedHashMap<ArrayList<GankEntity>,String> data = parseData(todayEntity);
+                        if (data == null){
+                            onError(new NetworkErrorException());
+                        }else {
+                            view.showDataSucceed(data);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showError("");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
     public void attachView(TodayContract.View view) {
         this.view = view;
     }
@@ -96,50 +130,38 @@ public class TodayPresenter extends AbstractPresenter implements TodayContract.P
         }
     }
 
-    private LinkedHashMap<String, ArrayList<GankEntity>> parseData(TodayEntity todayEntity) {
-        LinkedHashMap<String, ArrayList<GankEntity>> result = new LinkedHashMap<>();
+    private LinkedHashMap<ArrayList<GankEntity>,String> parseData(TodayEntity todayEntity) {
+        LinkedHashMap<ArrayList<GankEntity>,String> result = new LinkedHashMap<>();
         boolean isDataRight = !todayEntity.isError();
         if (isDataRight) {
-            String key = null;
-            ArrayList<GankEntity> value = null;
             ArrayList<String> category = todayEntity.getCategory();
             TodayEntity.Result results = todayEntity.getResults();
-            for (int i = 0; i < todayEntity.getCategory().size(); i++) {
-                switch (i){
-                    case Category.IOS:
-                        key = category.get(0);
-                        value = results.getiOS();
-                        break;
-                    case Category.EXPAND:
-                        key = category.get(1);
-                        value = results.getExpand();
-                        break;
-                    case Category.RECOMMEND:
-                        key = category.get(2);
-                        value = results.getRecommendBlind();
-                        break;
-                    case Category.ANDROID:
-                        key = category.get(3);
-                        value = results.getAndroid();
-                        break;
-                    case Category.APP:
-                        key = category.get(4);
-                        value = results.getApp();
-                        break;
-                    case Category.RIST_MOVIE:
-                        key = category.get(5);
-                        value = results.getRistMovie();
-                        break;
-                    case Category.FULI:
-                        key = category.get(6);
-                        value = results.getFuli();
-                        break;
-                    case Category.FRONT:
-                        key = category.get(7);
-                        value = results.getFront();
-                        break;
-                }
-                result.put(key,value);
+            if(results.getAndroid() != null){
+                result.put(results.getAndroid(),"Android");
+            }
+            if (results.getApp() != null){
+                result.put(results.getApp(),"App");
+            }
+            if (results.getApp() != null){
+                result.put(results.getApp(),"App");
+            }
+            if (results.getiOS() != null){
+                result.put(results.getiOS(),"iOS");
+            }
+            if (results.getRistMovie() != null){
+                result.put(results.getRistMovie(),"休息视频");
+            }
+            if (results.getFront() != null){
+                result.put(results.getFront(),"前端");
+            }
+            if (results.getExpand() != null){
+                result.put(results.getExpand(),"拓展资源");
+            }
+            if (results.getRecommendBlind() != null){
+                result.put(results.getRecommendBlind(),"瞎推荐");
+            }
+            if (results.getFuli() != null){
+                result.put(results.getFuli(),"福利");
             }
         }else {
             return null;
