@@ -70,7 +70,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter {
                     public void onClick(View v) {
                         setItemSelected(currentPosition);
                         if (onDateSelectedListener != null){
-                            onDateSelectedListener.onDateSelect(dates.get(currentPosition));
+                            onDateSelectedListener.onDateSelect(DateUtil.getRequestDate(dates.get(currentPosition)));
                         }
                     }
                 });

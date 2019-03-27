@@ -6,6 +6,7 @@ import com.welson.gankio2.entity.TodayEntity;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -15,6 +16,6 @@ public interface ApiService {
     @GET("day/history")
     Observable<HistoryEntity> getHistoryDates();
 
-    @GET("{date}")
-    Observable<TodayEntity> getDateData(String date);
+    @GET("day/{date}")
+    Observable<TodayEntity> getDateData(@Path("date")String date);
 }

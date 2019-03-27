@@ -33,6 +33,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
     private RecyclerView calendarRecyclerView;
     private CalendarRecyclerAdapter calendarRecyclerAdapter;
     private MainActivity activity;
+    private LinkedHashMap<ArrayList<GankEntity>,String> gankEntities = new LinkedHashMap<>();
 
     @Override
     public int setLayoutId() {
@@ -78,6 +79,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
         }
         calendarRecyclerAdapter = new CalendarRecyclerAdapter(getContext(), dates);
         calendarRecyclerView.setAdapter(calendarRecyclerAdapter);
+        calendarRecyclerAdapter.setOnDateSelectedListener(this);
     }
 
     @Override
@@ -110,6 +112,6 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
 
     @Override
     public void onDateSelect(String date) {
-
+        todayPresenter.requestDateData(date);
     }
 }

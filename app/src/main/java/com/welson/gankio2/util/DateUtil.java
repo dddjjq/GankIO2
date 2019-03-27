@@ -33,4 +33,12 @@ public class DateUtil {
         String[] arr = date.split("-");
         return arr[2];
     }
+
+    public static String getRequestDate(String date){
+        String[] dates = date.split("-");
+        String year = dates[0];
+        String month = dates[1];
+        String day = dates[2];
+        return year + "/" + month + "/" + day;
+    }
 }
