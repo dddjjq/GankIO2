@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter {
 
-    private LinkedHashMap<ArrayList<GankEntity>,String> gankEntities;
+    private LinkedHashMap<ArrayList<GankEntity>, String> gankEntities;
     private Context context;
     private static final int TYPE_FULI = 0;
     private static final int TYPE_HEAD = 1;
@@ -31,10 +31,10 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     private ArrayList<GankEntity> allData;
     private String fuliUrl = "";
     private int currentCount = 0;
-    private LinkedHashMap<Integer,String> titles = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, String> titles = new LinkedHashMap<>();
     private boolean isTitleinit = false;
 
-    public NewsRecyclerAdapter(Context context,LinkedHashMap<ArrayList<GankEntity>,String> gankEntities){
+    public NewsRecyclerAdapter(Context context, LinkedHashMap<ArrayList<GankEntity>, String> gankEntities) {
         this.gankEntities = gankEntities;
         this.context = context;
         init();
@@ -45,12 +45,12 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view;
-        switch (viewType){
+        switch (viewType) {
             case TYPE_FULI:
-                view =inflater.inflate(R.layout.news_fuli_item_layout, parent, false);
+                view = inflater.inflate(R.layout.news_fuli_item_layout, parent, false);
                 return new FuliViewHolder(view);
             case TYPE_HEAD:
-                view =inflater.inflate(R.layout.news_head_item_layout, parent, false);
+                view = inflater.inflate(R.layout.news_head_item_layout, parent, false);
                 return new HeadViewHolder(view);
             case TYPE_NORMAL:
                 view = inflater.inflate(R.layout.news_normal_item_layout, parent, false);
@@ -63,29 +63,29 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         initTitle();
-        switch (getItemViewType(position)){
+        switch (getItemViewType(position)) {
             case TYPE_FULI:
-                FuliViewHolder viewHolder = (FuliViewHolder)holder;
-                GlideUtil.loadImage(context,fuliUrl,viewHolder.fuliImage);
+                FuliViewHolder viewHolder = (FuliViewHolder) holder;
+                GlideUtil.loadImage(context, fuliUrl, viewHolder.fuliImage);
                 break;
             case TYPE_HEAD:
-                HeadViewHolder headViewHolder = (HeadViewHolder)holder;
-                for (Map.Entry<Integer,String> entry : titles.entrySet()){
-                    if (position == entry.getKey()){
+                HeadViewHolder headViewHolder = (HeadViewHolder) holder;
+                for (Map.Entry<Integer, String> entry : titles.entrySet()) {
+                    if (position == entry.getKey()) {
                         headViewHolder.headText.setText(entry.getValue());
                     }
                 }
                 break;
             case TYPE_NORMAL:
                 int realPosition = getRealPosition(position);
-                NormalViewHolder normalViewHolder = (NormalViewHolder)holder;
+                NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
                 normalViewHolder.title.setText(allData.get(realPosition).getDesc());
                 normalViewHolder.user.setText(allData.get(realPosition).getWho());
-                normalViewHolder.time.setText(allData.get(realPosition).getPublishedAt().substring(0,10));
-                if (allData.get(realPosition).getImages() != null){
+                normalViewHolder.time.setText(allData.get(realPosition).getPublishedAt().substring(0, 10));
+                if (allData.get(realPosition).getImages() != null) {
                     normalViewHolder.image.setVisibility(View.VISIBLE);
-                    GlideUtil.loadImage(context,allData.get(realPosition).getImages()[0],normalViewHolder.image);
-                }else {
+                    GlideUtil.loadImage(context, allData.get(realPosition).getImages()[0], normalViewHolder.image);
+                } else {
                     normalViewHolder.image.setVisibility(View.GONE);
                 }
                 break;
@@ -95,8 +95,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         int normalSize = 0;
-        for (Map.Entry<ArrayList<GankEntity>,String> entry : gankEntities.entrySet()){
-            if (!entry.getValue().equals("福利")){
+        for (Map.Entry<ArrayList<GankEntity>, String> entry : gankEntities.entrySet()) {
+            if (!entry.getValue().equals("福利")) {
                 normalSize += entry.getKey().size();
             }
         }
@@ -105,53 +105,53 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0){
+        if (position == 0) {
             return TYPE_FULI;
-        }else if (allData.get(position-1) == null){
+        } else if (allData.get(position - 1) == null) {
             return TYPE_HEAD;
-        }else {
+        } else {
             return TYPE_NORMAL;
         }
     }
 
-    private int getRealPosition(int position){
+    private int getRealPosition(int position) {
         return position - 1;
     }
 
-    private void initTitle(){
-        if (isTitleinit){
+    private void initTitle() {
+        if (isTitleinit) {
             return;
         }
         int count = getItemCount();
-        for (int position=0;position<count;position++){
-            if (getItemViewType(position) == TYPE_HEAD && currentCount < categorys.size()){
-                titles.put(position,categorys.get(currentCount));
-                currentCount++ ;
+        for (int position = 0; position < count; position++) {
+            if (getItemViewType(position) == TYPE_HEAD && currentCount < categorys.size()) {
+                titles.put(position, categorys.get(currentCount));
+                currentCount++;
             }
         }
         isTitleinit = true;
     }
 
-    private void init(){
+    private void init() {
         categorys = new ArrayList<>();
         allData = new ArrayList<>();
-        for (Map.Entry<ArrayList<GankEntity>,String> entry : gankEntities.entrySet()){
-            if (!entry.getValue().equals("福利")){
+        for (Map.Entry<ArrayList<GankEntity>, String> entry : gankEntities.entrySet()) {
+            if (!entry.getValue().equals("福利")) {
                 categorys.add(entry.getValue());
                 allData.add(null); // add for head
                 allData.addAll(entry.getKey());
-            }else {
+            } else {
                 fuliUrl = entry.getKey().get(0).getUrl();
             }
         }
     }
 
     //add for sort list
-    private void sortCategory(){
-        String[] arr = new String[]{"Android","App","iOS","休息视频","前端","拓展资源","瞎推荐"};
-        for (String s1 : arr){
-            for (int j=0;j<categorys.size();j++){
-                if (categorys.get(j).equals(s1)){
+    private void sortCategory() {
+        String[] arr = new String[]{"Android", "App", "iOS", "休息视频", "前端", "拓展资源", "瞎推荐"};
+        for (String s1 : arr) {
+            for (int j = 0; j < categorys.size(); j++) {
+                if (categorys.get(j).equals(s1)) {
                     String s = categorys.remove(j);
                     categorys.add(s);
                 }
@@ -159,7 +159,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class FuliViewHolder extends RecyclerView.ViewHolder{
+    class FuliViewHolder extends RecyclerView.ViewHolder {
 
         ImageView fuliImage;
 
@@ -169,7 +169,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class HeadViewHolder extends RecyclerView.ViewHolder{
+    class HeadViewHolder extends RecyclerView.ViewHolder {
 
         TextView headText;
 
@@ -179,7 +179,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class NormalViewHolder extends RecyclerView.ViewHolder{
+    class NormalViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
         TextView user;

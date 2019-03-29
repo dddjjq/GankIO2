@@ -3,6 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/loading_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/loading_icon"/>
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_recycler_view"
         android:layout_width="match_parent"

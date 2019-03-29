@@ -86,6 +86,7 @@ public class TodayPresenter extends AbstractPresenter implements TodayContract.P
 
     @Override
     public void requestDateData(String date) {
+        view.startRequest();
         RetrofitHelper.getInstance().getDateData(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

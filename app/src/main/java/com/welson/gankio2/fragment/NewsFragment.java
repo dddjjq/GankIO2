@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.welson.gankio2.MainActivity;
 import com.welson.gankio2.R;
@@ -27,6 +29,8 @@ import java.util.LinkedHashMap;
 public class NewsFragment extends BaseFragment implements TodayContract.View,
         CalendarRecyclerAdapter.OnDateSelectedListener {
 
+    private LinearLayout loadLayout;
+    private ImageView loadIcon;
     private TodayPresenter todayPresenter;
     private RecyclerView newsRecyclerView;
     private NewsRecyclerAdapter adapter;
@@ -34,6 +38,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
     private CalendarRecyclerAdapter calendarRecyclerAdapter;
     private MainActivity activity;
     private LinkedHashMap<ArrayList<GankEntity>,String> gankEntities = new LinkedHashMap<>();
+    private ObjectAnimator rotate;
 
     @Override
     public int setLayoutId() {
@@ -42,6 +47,8 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
 
     @Override
     public void initView(View view) {
+        loadLayout = view.findViewById(R.id.loading_layout);
+        loadIcon = view.findViewById(R.id.loading_image);
         newsRecyclerView = view.findViewById(R.id.news_recycler_view);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         newsRecyclerView.setLayoutManager(manager);
@@ -67,6 +74,8 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
 
     @Override
     public void showDataSucceed(LinkedHashMap<ArrayList<GankEntity>,String> gankEntities) {
+        setLoadingShow(false);
+        rotate.cancel();
         adapter = new NewsRecyclerAdapter(getContext(), gankEntities);
         newsRecyclerView.setAdapter(adapter);
     }
@@ -84,12 +93,17 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
 
     @Override
     public void startRequest() {
-
+        setLoadingShow(true);
+        rotate = ObjectAnimator.ofFloat(loadIcon,"rotation",0,360f);
+        rotate.setRepeatCount(-1);
+        rotate.setDuration(700);
+        rotate.start();
     }
 
     @Override
     public void showError(String s) {
-
+        setLoadingShow(false);
+        rotate.cancel();
     }
 
     public void onCalendarClick() {
@@ -113,5 +127,15 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
     @Override
     public void onDateSelect(String date) {
         todayPresenter.requestDateData(date);
+    }
+
+    private void setLoadingShow(boolean isLoadingShow){
+        if (isLoadingShow){
+            loadLayout.setVisibility(View.VISIBLE);
+            newsRecyclerView.setVisibility(View.GONE);
+        }else {
+            loadLayout.setVisibility(View.GONE);
+            newsRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }
