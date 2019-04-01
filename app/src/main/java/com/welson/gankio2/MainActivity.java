@@ -90,4 +90,8 @@ public class MainActivity extends AppCompatActivity implements GankToolbar.OnLef
     public void onRightClickListener() {
 
     }
+
+    public void setToolbarTitle(String title){
+        toolbar.setTitle(title);
+    }
 }

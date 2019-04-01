@@ -27,6 +27,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter {
     private boolean isFocusInit = false;
     private HashMap<Integer,NormalViewHolder> viewHolderHashMap;
     private int normalTextColor = Color.parseColor("#000000");
+    private int normalSmallTextColor = Color.parseColor("#A9A9A9");
     private int selectTextColor = Color.parseColor("#00ACC1");
     private OnDateSelectedListener onDateSelectedListener;
 
@@ -103,8 +104,8 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter {
                 entry.getValue().month.setTextColor(selectTextColor);
             }else {
                 entry.getValue().day.setTextColor(normalTextColor);
-                entry.getValue().week.setTextColor(normalTextColor);
-                entry.getValue().month.setTextColor(normalTextColor);
+                entry.getValue().week.setTextColor(normalSmallTextColor);
+                entry.getValue().month.setTextColor(normalSmallTextColor);
             }
         }
 

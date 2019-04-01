@@ -41,4 +41,12 @@ public class DateUtil {
         String day = dates[2];
         return year + "/" + month + "/" + day;
     }
+
+    public static String resetRequestDate(String date){
+        String[] dates = date.split("/");
+        String year = dates[0];
+        String month = dates[1];
+        String day = dates[2];
+        return year + "-" + month + "-" + day;
+    }
 }

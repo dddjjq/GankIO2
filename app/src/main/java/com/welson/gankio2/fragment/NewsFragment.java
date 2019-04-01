@@ -21,6 +21,7 @@ import com.welson.gankio2.contract.TodayContract;
 import com.welson.gankio2.entity.GankEntity;
 import com.welson.gankio2.entity.HistoryEntity;
 import com.welson.gankio2.presenter.TodayPresenter;
+import com.welson.gankio2.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +90,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
         calendarRecyclerAdapter = new CalendarRecyclerAdapter(getContext(), dates);
         calendarRecyclerView.setAdapter(calendarRecyclerAdapter);
         calendarRecyclerAdapter.setOnDateSelectedListener(this);
+        activity.setToolbarTitle(historyEntity.getResults().get(0));
     }
 
     @Override
@@ -127,6 +129,7 @@ public class NewsFragment extends BaseFragment implements TodayContract.View,
     @Override
     public void onDateSelect(String date) {
         todayPresenter.requestDateData(date);
+        activity.setToolbarTitle(DateUtil.resetRequestDate(date));
     }
 
     private void setLoadingShow(boolean isLoadingShow){
