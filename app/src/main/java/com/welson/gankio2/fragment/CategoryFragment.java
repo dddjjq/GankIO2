@@ -3,8 +3,15 @@ package com.welson.gankio2.fragment;
 import android.view.View;
 
 import com.welson.gankio2.R;
+import com.welson.gankio2.contract.CategoryContract;
+import com.welson.gankio2.entity.GankEntity;
+import com.welson.gankio2.presenter.CategoryPresenter;
 
-public class CategoryFragment extends BaseFragment {
+import java.util.ArrayList;
+
+public class CategoryFragment extends BaseFragment{
+
+
     @Override
     public int setLayoutId() {
         return R.layout.fragment_category;
@@ -17,11 +24,9 @@ public class CategoryFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void detach() {
-
     }
 }

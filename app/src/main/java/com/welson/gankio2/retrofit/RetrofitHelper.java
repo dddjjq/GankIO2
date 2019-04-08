@@ -3,6 +3,7 @@ package com.welson.gankio2.retrofit;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.welson.gankio2.constant.Constants;
+import com.welson.gankio2.entity.CategoryEntity;
 import com.welson.gankio2.entity.HistoryEntity;
 import com.welson.gankio2.entity.TodayEntity;
 
@@ -48,5 +49,9 @@ public class RetrofitHelper {
 
     public Observable<TodayEntity> getDateData(String date){
         return apiService.getDateData(date);
+    }
+
+    public Observable<CategoryEntity> getCategoryData(String category,int count,int page){
+        return apiService.getCategoryData(category, count, page);
     }
 }

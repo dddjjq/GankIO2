@@ -1,5 +1,6 @@
 package com.welson.gankio2;
 
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.welson.gankio2.fragment.CategoryFragment;
 import com.welson.gankio2.fragment.CollectFragment;
 import com.welson.gankio2.fragment.GirlFragment;
 import com.welson.gankio2.fragment.NewsFragment;
+import com.welson.gankio2.view.BottomBar;
 import com.welson.gankio2.view.GankToolbar;
 
 import java.util.ArrayList;
@@ -22,7 +24,10 @@ public class MainActivity extends AppCompatActivity implements GankToolbar.OnLef
     private FrameLayout mainLayout;
     private GankToolbar toolbar;
     private ArrayList<BaseFragment> fragments;
+    private BottomBar bottomBar;
     private int currentItem = 0;
+    private String currentDate;
+    private int[] leftIcons = {R.drawable.toolbar_calendar,R.drawable.toolbar_add,R.drawable.toolbar_change,R.drawable.toolbar_setting};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements GankToolbar.OnLef
         toolbar.setOnLeftImageClickListener(this);
         toolbar.setOnRightImageClickListener(this);
         setSupportActionBar(toolbar);
+        bottomBar = findViewById(R.id.bottom_bar);
     }
 
     private void initData() {
@@ -76,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements GankToolbar.OnLef
         }
         currentItem = item;
         fragmentTransaction.commit();
+        toolbar.setLeftImage(leftIcons[item]);
+        if (item != 0){
+            setToolbarTitle(null);
+        }else {
+            setToolbarTitle(currentDate);
+        }
     }
 
     @Override
@@ -93,5 +105,8 @@ public class MainActivity extends AppCompatActivity implements GankToolbar.OnLef
 
     public void setToolbarTitle(String title){
         toolbar.setTitle(title);
+        if (title != null){
+            currentDate = title;
+        }
     }
 }

@@ -4,4 +4,24 @@
     <string name="bottom_item_text_category">分类</string>
     <string name="bottom_item_text_girls">妹纸</string>
     <string name="bottom_item_text_collect">收藏</string>
+    <string-array name="category_item">
+        <item>all</item>
+        <item>Android</item>
+        <item>iOS</item>
+        <item>App</item>
+        <item>前端</item>
+        <item>瞎推荐</item>
+        <item>拓展资源</item>
+        <item>休息视频</item>
+    </string-array>
+    <string-array name="category_string">
+        <item>全部</item>
+        <item>Android</item>
+        <item>iOS</item>
+        <item>App</item>
+        <item>前端</item>
+        <item>瞎推荐</item>
+        <item>拓展资源</item>
+        <item>休息视频</item>
+    </string-array>
 </resources>

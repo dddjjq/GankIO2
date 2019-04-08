@@ -1,5 +1,7 @@
 package com.welson.gankio2.retrofit;
 
+import com.welson.gankio2.entity.CategoryEntity;
+import com.welson.gankio2.entity.GankEntity;
 import com.welson.gankio2.entity.HistoryEntity;
 import com.welson.gankio2.entity.TodayEntity;
 
@@ -18,4 +20,7 @@ public interface ApiService {
 
     @GET("day/{date}")
     Observable<TodayEntity> getDateData(@Path("date")String date);
+
+    @GET("data/{category}/{count}/{page}")
+    Observable<CategoryEntity> getCategoryData(@Path("category")String category,@Path("count")int count,@Path("page")int page);
 }
