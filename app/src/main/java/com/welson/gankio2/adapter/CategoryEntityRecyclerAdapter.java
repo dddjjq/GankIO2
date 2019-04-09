@@ -20,7 +20,7 @@ public class CategoryEntityRecyclerAdapter extends RecyclerView.Adapter<Category
     private Context context;
     private ArrayList<GankEntity> entities;
 
-    private CategoryEntityRecyclerAdapter(Context context, ArrayList<GankEntity> entities){
+    public CategoryEntityRecyclerAdapter(Context context, ArrayList<GankEntity> entities){
         this.context = context;
         this.entities = entities;
     }
